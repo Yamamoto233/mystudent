@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <h1>新闻发布</h1>
+    <form>
+        <p>标题:<input type="text" id="title"></p>
+        <p>作者:<input type="text" id="author"></p>
+        <p>来源:<input type="text" id="source"></p>
+        <p>
+            内容: <br>
+            <textarea name="" id="content" cols="30" rows="10"></textarea>
+        </p>
+        <p><button type="button" id="btn">发布信息</button></p>
+    </form>
+    <script src="./js/jquery.js"></script>
+    <script src="./js/axios.js"></script>
+    <script src="./js/Qs.js"></script>
+    <script>  
+
+          
+        $('#btn').on('click',function(){
+            let params={
+                title:$('#title').val(),
+                author:$('#author').val(),
+                source:$('#source').val(),
+                content:$('#content').val()
+            }
+          axios.post('http://127.0.0.1:8088/news/newspublish',Qs.stringify(params))
+                  .then( res =>{
+                      console.log(res.data);   
+                  })
+                  .catch(err =>{
+                      console.log(err);
+                      
+                  })
+        
+        })
+    
+    </script>
+</body>
+</html>
