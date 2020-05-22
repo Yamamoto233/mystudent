@@ -41,7 +41,7 @@
                    @current-change="handleCurrentChange"
                    :current-page="currentPage"
                    layout="total, sizes, prev, pager, next, jumper"
-                   :page-sizes="[10, 20, 30]"
+                   :page-sizes="[5, 10, 20]"
                    :page-size="pageSize">
     </el-pagination>
     <Dialog :isDialog="dialogVisible"
@@ -57,7 +57,7 @@
 <script>
 import Dialog from "./components/Dialog"
 import Detail from "./components/Detail"
-import { getList,delStudent } from './api'
+import { getList, delStudent } from './api'
 import moment from 'moment'
 export default {
   components: {
@@ -73,27 +73,27 @@ export default {
       detailVisible: false,
       currentPage: 1,
       total: 10,
-      pageSize: 10,
+      pageSize: 5,
       stuDetail: {}
     }
   },
   methods: {
     addStudent () {
-      this.dialogVisible=true
+      this.dialogVisible = true
     },
 
-    handleEdit (v,i) {
-      this.detailVisible=true
-      this.stuDetail=i
+    handleEdit (v, i) {
+      this.detailVisible = true
+      this.stuDetail = i
     },
-    handleDelete (v,i) {
-      this.$confirm('此操作将永久删除该学生信息, 是否继续?','提示',{
+    handleDelete (v, i) {
+      this.$confirm('此操作将永久删除该学生信息, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(async () => {
-        let { errCode }=await delStudent({ id: i.id })
-        if(errCode===0) {
+        let { errCode } = await delStudent({ id: i.id })
+        if (errCode === 0) {
           this.$message({
             type: 'success',
             message: '删除信息成功!'
@@ -110,20 +110,21 @@ export default {
       });
     },
     handleSizeChange (v) {
-      this.pageSize=v;
+      this.pageSize = v;
       this.getData()
     },
     handleCurrentChange (v) {
-      this.currentPage=v
+      this.currentPage = v
       this.getData()
     },
     async getData () {
-      let { total,data }=await getList({ currentPage: this.currentPage,pageSize: this.pageSize })
-      this.total=total
+      let { total, data } = await getList({ currentPage: this.currentPage, pageSize: this.pageSize })
+      this.total = total
       data.forEach(v => {
-        v.ctime=moment(v.ctime).format('YYYY-MM-DD HH:MM:SS')
+        v.ctime = moment(v.ctime).format('YYYY-MM-DD HH:MM:SS')
       })
-      this.tableData=data.reverse()
+      this.tableData = data
+
     }
   },
   created () {
