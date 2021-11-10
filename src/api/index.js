@@ -1,7 +1,13 @@
+/*
+ * Copyright (c) 2021 成都快一点技术有限公司 All rights reserved
+ * @Author: 陈智
+ * @Date: 2020-05-20 11:28:50
+ * @LastEditTime: 2021-05-24 16:18:50
+ */
 import axios from 'axios'
 import qs from 'qs'
 
-axios.defaults.baseURL = 'http://127.0.0.1:8088'
+axios.defaults.baseURL = '/api'
 
 
 const post = (url,params={}) => new Promise((resolve,reject) => {
@@ -17,3 +23,4 @@ export const getList = params => get('/news/newslist',params)
 export const delStudent = params => get('/news/newsdel',params)
 export const getDetail = params => get('/news/newsdetail',params)
 export const modifyStudent = params => post('/news/newssaveedit',params)
+export const nicePic = params => get('/cos-img/',params)

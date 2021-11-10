@@ -89,6 +89,35 @@ router.get('/newsdel', (req, res) => {
   })
 })
 
+router.get('/newsalldel', (req, res) => {
+  let { id } = req.query
+
+  if (!id) {
+    res.send('注意传参数哦!参数错误')
+    return
+  }
+  let str = '('
+  for (const val of id) {
+    str += val
+  }
+  str = str + ')'
+  const sql = `delete from article where id in ${str}`
+  conn.query(sql, (err, data) => {
+    if (err) throw err
+    if (data.affectedRows > 0) {
+      res.send({
+        errCode: 0,
+        msg: '批量删除新闻成功',
+      })
+    } else {
+      res.send({
+        errCode: 1,
+        msg: '批量删除新闻失败',
+      })
+    }
+  })
+})
+
 router.get('/newsdetail', (req, res) => {
   let { id } = req.query
 

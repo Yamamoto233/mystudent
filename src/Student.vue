@@ -2,8 +2,14 @@
   <div class="student">
     <el-button type="primary"
                @click="addStudent">新增同学</el-button>
+    <el-button type="denger"
+               @click="batchDel">批量删除</el-button>
     <el-table :data="tableData"
-              style="width: 1200px">
+              style="width: 1200px"
+              @selection-change="handleSelectionChange">
+      <el-table-column type="selection"
+                       width="55">
+      </el-table-column>
       <el-table-column prop="id"
                        label="编号"
                        width="60">
@@ -36,6 +42,8 @@
         </template>
       </el-table-column>
     </el-table>
+    <el-button type="primary" size="small" @click="changePic">来 图</el-button>
+    <img :src="nicePic" width="300px" height="500px">
     <el-pagination :total="total"
                    @size-change="handleSizeChange"
                    @current-change="handleCurrentChange"
@@ -57,7 +65,7 @@
 <script>
 import Dialog from "./components/Dialog"
 import Detail from "./components/Detail"
-import { getList, delStudent } from './api'
+import { getList, delStudent,nicePic } from './api'
 import moment from 'moment'
 export default {
   components: {
@@ -74,10 +82,17 @@ export default {
       currentPage: 1,
       total: 10,
       pageSize: 5,
-      stuDetail: {}
+      stuDetail: {},
+      nicePic:''
     }
   },
   methods: {
+    changePic(){
+      nicePic().then(res =>{
+        console.log(res);
+        this.nicePic = res
+      })
+    },
     addStudent () {
       this.dialogVisible = true
     },
@@ -124,6 +139,12 @@ export default {
         v.ctime = moment(v.ctime).format('YYYY-MM-DD HH:MM:SS')
       })
       this.tableData = data
+
+    },
+    handleSelectionChange (val) {
+      console.log(val);
+    },
+    batchDel (val, index) {
 
     }
   },
